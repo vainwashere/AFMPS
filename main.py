@@ -1,7 +1,7 @@
 import pygame as pg
 import sys
 from Classes.scene_manager import SceneManager
-from Classes.menu_scene import MenuScene
+from Classes.fresh_menu_scene import FreshMenuScene
 import pygame_gui as pg_g
 # Main Game Loop
 def main():
@@ -14,7 +14,7 @@ def main():
 
     screen = pg.display.set_mode((screen_w, screen_h))
 
-    manager = SceneManager(MenuScene(ui_manager), ui_manager)
+    manager = SceneManager(FreshMenuScene(ui_manager), ui_manager)
 
     while True:
         events = pg.event.get()
