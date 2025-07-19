@@ -1,0 +1,17 @@
+ {
+    "#start_menu_loading_bar":
+     {
+         "misc":
+         {
+             "text_horiz_alignment": "left"
+         },
+
+         "colours":
+         {
+            "normal_border":"black",
+            "unfilled_bar":"white",
+            "filled_bar":"#34fc87"
+
+         }
+    }
+}
