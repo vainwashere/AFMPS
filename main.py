@@ -10,13 +10,14 @@ def main():
     screen_w, screen_h = info.current_w, info.current_h
     clock = pg.time.Clock()
     ui_manager = pg_g.UIManager((screen_w, screen_h),"theme.json")
-    time_delta = clock.tick(60)/1000.0
 
     screen = pg.display.set_mode((screen_w, screen_h))
 
     manager = SceneManager(FreshMenuScene(ui_manager), ui_manager)
 
     while True:
+        #Controller.current_state.tick()
+        time_delta = clock.tick(60)/1000.0
         events = pg.event.get()
 
         for event in events:
@@ -30,7 +31,6 @@ def main():
         ui_manager.draw_ui(screen)
 
         pg.display.flip()
-        clock.tick(60)
 
 if __name__ == "__main__":
     main()
