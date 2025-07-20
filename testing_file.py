@@ -1,2 +1,4 @@
-x = {'a':1,'b':2}
-asse
+x: int
+
+if x:
+	print(yes)

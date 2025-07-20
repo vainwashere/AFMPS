@@ -26,9 +26,9 @@ class PartialMenu(GameState):
         # Check to see if we have been assigned a Controller yet...
         if not isinstance(self.CONTROLLER, Controller):
             raise ValueError
-
+        print("partial menu booting up!")
         self.load_at: float = 0.0
-        self.progress_bar = pg_g.elements.ui_progress_bar.UIProgressBar(relative_rect=pg.Rect(self.SCREEN_W//2-300, self.SCREEN_H//2+200, 600, 5),manager=self.UI_MANAGER, object_id = pg_g.ObjectID(object_id="#start_menu_loading_bar")) #type: ignore
+        self.progress_bar = pg_g.elements.UIProgressBar(relative_rect=pg.Rect(self.SCREEN_W//2-300, self.SCREEN_H//2+200, 600, 5),manager=self.UI_MANAGER, object_id = pg_g.core.ObjectID(object_id="#start_menu_loading_bar"))
         for i, v in enumerate(self.BUMPS):
             self.BUMPS[i] = random.randint(0,v) if i == 0 else random.randint(self.BUMPS[i-1],v)
 
@@ -49,8 +49,8 @@ class PartialMenu(GameState):
                             sys.exit()
 
     def draw(self, screen) -> Optional[Any]:
-        self.UI_MANAGER.draw_ui(screen)
         screen.fill((20, 20, 20))
+        self.UI_MANAGER.draw_ui(screen)
         
     def update(self) -> Optional[Any]:
         self.UI_MANAGER.update(self.time_delta)
@@ -62,7 +62,7 @@ class PartialMenu(GameState):
         self.progress_bar.set_current_progress(self.load_at)
         if self.load_at >= 95: 
             self.clean_up()
-            self.close()
+            #self.close()
         time.sleep(0.01)
  
     def tick(self) -> Optional[Any]:

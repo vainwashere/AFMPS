@@ -1,29 +1,56 @@
 from classes.game_state import GameState
+from typing import Optional
 # Controller
 
+state_map = {
+    
+    'partial_menu':'classes.partial_menu.PartialMenu'
+}
+
+
 class Controller:
-    def __init__(self, main_state: GameState):
-        if not isinstance(main_state, GameState):
+    def __init__(self, main_state: str) -> None:
+        if not isinstance(main_state, str):
             raise TypeError
-        self.LOADED_STATES = {'main':main_state} #state names should be as short as possible.
-        self.go_to(main_state)
+        self.current_state_key: str
+        self.current_state: GameState
+        self.LOADED_STATES : dict = {}
+        self.go_to(main_state) 
 
-    def get_state(self, state_name):
-        if 
+    def fetch_state(self, state_name: str) -> Optional[GameState]:
+        if state_name in self.LOADED_STATES:
+            return self.LOADED_STATES[state_name]
+        else:
+            try:
+                s = self.import_state(state_map[state_name])
+                self.LOADED_STATES[state_name] = s
+                return s
+            except Exception as e: #modulenotfounderror
+                print(e)
 
-    def get_state(self, sts):
+    def import_state(self, sts: str) -> GameState:
+        print("attempting import...")
         parts = sts.split('.')
         module = ".".join(parts[:-1])
         m = __import__( module )
         for comp in parts[1:]:
-            m = getattr(m, comp)            
-        return m
+            m = getattr(m, comp)    
+        print(m)        
+        return m()
 
-    def go_to(self, next_state):
-        self.current_state = next_state
-        # self.current_state.ui_manager = pg_g.UIManager((screen_res), screen)
-        # By design: All States have the responsibility to define their own UIManager.
-        # This is done as some states may not even have the need for a UIManager. In any case, the UIManager will
-        # be called to draw if it exists in the state's draw() function, otherwise not.
-        self.current_state.CONTROLLER = self
-        # This is a bit tricky. This is one of the reasons why the boot function exists - The CONTROLLER constant, by design, will be assigned after the state has already come into existence (and after its own innit function has ran). This is why the boot function is needed.
+    def go_to(self, next_state_str: str):
+        next_state = self.fetch_state(next_state_str)
+        print(next_state)
+        self.dump()
+        self.current_state = next_state #type:ignore #fix these later.
+        self.current_state.CONTROLLER = self #type:ignore
+        self.current_state_key = next_state_str
+        
+    
+    # dump the current state's data.
+    def dump(self) -> None:
+        try:
+            self.LOADED_STATES[self.current_state_key] = self.current_state
+        except Exception as e:
+            print(e)
+            print("dump exeption^^")
