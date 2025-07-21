@@ -15,6 +15,9 @@ def main():
         controller.current_state.tick()
         events = pg.event.get()
         controller.current_state.handle_events(events)
+        if controller.breakloop:
+            controller.breakloop = not controller.breakloop
+            continue
         controller.current_state.update()
         controller.current_state.draw(screen)
         pg.display.flip()

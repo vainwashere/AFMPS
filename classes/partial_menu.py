@@ -47,6 +47,9 @@ class PartialMenu(GameState):
                         case pg.K_ESCAPE:  # Enter key to switch scene
                             pg.quit()
                             sys.exit()
+                        case pg.K_BACKSLASH:
+                            print("backlash noted")
+                            self.close()
 
     def draw(self, screen) -> Optional[Any]:
         screen.fill((20, 20, 20))

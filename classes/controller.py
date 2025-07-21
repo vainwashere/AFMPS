@@ -4,7 +4,8 @@ from typing import Optional
 
 state_map = {
     
-    'partial_menu':'classes.partial_menu.PartialMenu'
+    'partial_menu':'classes.partial_menu.PartialMenu',
+    'menu': 'classes.menu.Menu'
 }
 
 
@@ -12,6 +13,7 @@ class Controller:
     def __init__(self, main_state: str) -> None:
         if not isinstance(main_state, str):
             raise TypeError
+        self.breakloop = False
         self.current_state_key: str
         self.current_state: GameState
         self.LOADED_STATES : dict = {}
@@ -45,6 +47,7 @@ class Controller:
         self.current_state = next_state #type:ignore #fix these later.
         self.current_state.CONTROLLER = self #type:ignore
         self.current_state_key = next_state_str
+        self.breakloop = True
         
     
     # dump the current state's data.
